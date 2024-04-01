@@ -25,7 +25,7 @@ const Form: React.FC = () => {
         console.log("res", res);
         if (res.data && res.data.filePath) {
           // Automatically download the file
-          window.open(res.data.filePath);
+        //   window.open(res.data.filePath);
         }
       } catch (error) {
         // Handle error
