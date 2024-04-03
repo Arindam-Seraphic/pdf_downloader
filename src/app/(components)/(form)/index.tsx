@@ -14,6 +14,7 @@ const Form: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [isUrlVisible, setIsUrlVisible] = useState(false);
+  const [text, setText] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ inputValue: e.target.value });
@@ -25,13 +26,17 @@ const Form: React.FC = () => {
     if (formData.inputValue.trim() !== "") {
       try {
         const res = await axios.post(
-          "https://agenciatributaria.hub.seraphic.io/api/v1/download",
+          // "https://agenciatributaria.hub.seraphic.io/api/v1/download",
+          "http://localhost:5006/api/v1/download",
           {
             inputValue: formData.inputValue,
           }
         );
+        setFormData({ inputValue: "" });
         setLoading(false);
         if (res.data) {
+          console.log(res.data);
+          setText(res.data.text);
           setIsUrlVisible(true);
         }
       } catch (error) {
@@ -55,11 +60,14 @@ const Form: React.FC = () => {
             <a
               href="https://agenciatributaria.hub.seraphic.io/downloaded.pdf"
               target="_blank"
-                rel="noreferrer"
-                className="text-blue-500 underline"
+              rel="noreferrer"
+              className="text-blue-500 underline"
             >
               https://agenciatributaria.hub.seraphic.io/downloaded.pdf
             </a>
+            <p className="text-lg">
+              Total ingresos íntegros computables: <span className="font-semibold">{text}</span>
+            </p>
           </div>
         </>
       ) : (
